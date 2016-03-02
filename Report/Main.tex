@@ -1,0 +1,61 @@
+\documentclass[12pt,fleqn]{report} %taille de la police par défaut, et équations jusitifées à gauche
+\input{packages}     % Ce fichier contient tous les packages nécessaires à la compilation
+\makeindex           % donne l'ordre de créer l'index
+
+\begin{document}
+\renewcommand{\contentsname}{Contents}                % des jolis noms pour la table des matières
+\renewcommand{\bibname}{Bibliography}  % des jolis noms pour les sections bibliographiques
+
+%----------------------------------------------------------------------------------------
+%	 PAGE DE TITRE
+%-----------------------------	-----------------------------------------------------------
+\input{PageDeTitre}
+
+%----------------------------------------------------------------------------------------
+%	SOMMAIRE
+%----------------------------------------------------------------------------------------
+\tableofcontents  % Imprime le sommaire
+\cleardoublepage  % pour commencer sur une page impaire
+
+\chapter{Introduction}
+\input{Intro}
+
+%----------------------------------------------------------------------------------------
+%	PART I 
+%----------------------------------------------------------------------------------------
+\part{Generation of the signal}
+\input{Part1}
+
+%----------------------------------------------------------------------------------------
+%	PART II 
+%----------------------------------------------------------------------------------------
+\part{Time/frequency analysis}
+\input{Part2}
+
+%----------------------------------------------------------------------------------------
+%	PART III 
+%----------------------------------------------------------------------------------------
+
+\part{Time frequency analysis}
+\input{Part3}
+
+
+
+
+\appendix
+\part{Appendix}
+\input{Appendix}
+
+%----------------------------------------------------------------------------------------
+%	BIBLIOGRAPHIE
+%----------------------------------------------------------------------------------------
+
+%\addcontentsline{toc}{part}{Bibliography}
+%\bibliographystyle{apalike-fr}
+\bibliographystyle{plain}
+\bibliography{bibliographie}
+
+
+%----------------------------------------------------------------------------------------
+
+\end{document}

@@ -1,0 +1,14 @@
+*.pyc
+Intro.log
+Main.aux
+Main.glo
+Main.idx
+Main.ist
+Main.log
+Main.out
+Main.synctex.gz
+Main.toc
+PageDeTitre.log
+Code/test.py
+*.pckl
+*~
