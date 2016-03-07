@@ -128,30 +128,41 @@ def GenerationSignalSimple(tau,h,w1,w2,t1,t2):
 
 def lawFrequency(tfr,t,f):
 	tmp = np.zeros((len(f),len(t)))
-	k=0
-	print(np.shape(tfr))
-	print(np.shape(tmp))
-	print(np.shape(t))
-	print(np.shape(f))
+	k = np.zeros(len(t))
+	init = 0
 
-	# création du chemin
+	# creation du chemin
 	for i in range(len(t)):
-		if(i==0):
-			peakind = find_peaks_cwt(tfr[:,0], np.arange(1,10))
-			print(peakind[0])
-			tmp[peakind[0],0] = 1
-			k = peakind[0]
-			print(k)
+		if(i == 0 or init == 0):
+			peakind = find_peaks_cwt(tfr[:,i], np.arange(1,10))
+			if(len(peakind)!=0):
+				print(peakind[0])
+				tmp[peakind[0],i] = 1
+				k[i] = peakind[0]
+				init=1
+			else:
+				if(max(tfr[:,0])!=0):
+					print('ici')
+					a = 0
+					var = 0
+					for l in range(len(tfr[:,0])):
+						if(tfr[l,i]>var):
+							var = tfr[l,i]
+							a = l
+					tmp[a,i] = 1
+					k[i]=a
+					init=1
 		else:
 			Vartmp = 0
 			Indice = 0
 			for j in [-1,0,1]:
-				if(Vartmp<tmp[k+j,i-1]):
-					Vartmp = tmp[k+j,i]
+				if(Vartmp<tfr[k[i-1]+j,i]):
+					Vartmp = tmp[k[i-1]+j,i]
 					Indice = j
-			k = k + Indice
-			print(k)
-			tmp[k,i] = 1
+			k[i] = k[i-1] + Indice
+			tmp[k[i],i] = 1
+			#break
+	#print(k)
 
 	plt.figure()
 	plt.imshow(tmp, origin='lower', cmap='jet', interpolation='nearest', aspect='auto')
@@ -159,9 +170,7 @@ def lawFrequency(tfr,t,f):
 	plt.ylabel('Frequency')
 	plt.colorbar()
 	plt.show()
-
-
-	#print(peakind, freqs[peakind][0], tfr.tfr[peakind,30][0])
+	return k
 
 if __name__ == '__main__':
 
