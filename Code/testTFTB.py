@@ -8,6 +8,11 @@ import numpy as np
 import math as m
 import scipy
 import tftb
+try:
+    from skimage import filters
+except ImportError:
+    from skimage import filter as filters
+from skimage import exposure
 
 '''
 Début des fonction
@@ -90,7 +95,7 @@ def AffichageFFT(x,fs,tau):
     signal_freq = signal_freq[0:len(signal_freq)//2]  
     
     #affichage du signal
-    plt.figure('Affiche du signal temporelle et de sa densité spectrale')
+    plt.figure('Affiche du signal temporelle et de sa densite spectrale')
     plt.subplot(211)
     plt.title('Signal et son spectre')
     plt.plot(t, x)
@@ -176,6 +181,24 @@ if __name__ == '__main__':
 	
 
 	lawFrequency(tfr.tfr,tfr.ts,freqs)
+
+	val = filters.threshold_otsu(tfr.tfr)
+
+	hist, bins_center = exposure.histogram(tfr.tfr)
+	print(val)
+	plt.figure(figsize=(9, 4))
+	plt.subplot(131)
+	plt.imshow(tfr.tfr, cmap='gray', interpolation='nearest')
+	plt.axis('off')
+	plt.subplot(132)
+	plt.imshow(tfr.tfr < val, cmap='gray', interpolation='nearest')
+	plt.axis('off')
+	plt.subplot(133)
+	plt.plot(bins_center, hist, lw=2)
+	plt.axvline(val, color='k', ls='--')
+
+	plt.tight_layout()
+	plt.show()
 
 	#wvd = tftb.processing.WignerVilleDistribution(x)
 	#wvd.run()

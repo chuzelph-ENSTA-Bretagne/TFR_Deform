@@ -42,8 +42,8 @@ def Signal(k,r,theta,r0,alpha,tau,npts,freq):
     Field=[Field_scat(k,r0var,r,alpha,theta,N) for r0var in V]+ Field_inc
     return Field,t
     
-<<<<<<< HEAD
-=======
+
+
 def Phase(rObjet,thetaObjet,alpha,r,theta):
     d1 = rObjet*np.cos(alpha-thetaObjet)
     rp=np.sqrt(rObjet**2+r**2-2*r*rObjet*np.cos(thetaObjet-theta))
@@ -59,7 +59,7 @@ def SignalObjDif(k,r,theta,r0,alpha,tau,npts,freq,rObjet,thetaObjet):
     
     
 
->>>>>>> 890d1ed7489b3ce38e78b9f305e6fd127dcd2f94
+
     
 if __name__ == '__main__':
     freq=250.
@@ -79,8 +79,7 @@ if __name__ == '__main__':
     
     py.show()
     
-<<<<<<< HEAD
-=======
+
     
     
     # code pour Chuzel Philippe, test le signal percu dans le cas ou le centre du cylindre n'est pas confondu avec l'origine du repere
@@ -95,4 +94,3 @@ if __name__ == '__main__':
     py.plot(t,np.real(S))
     
     py.show()
->>>>>>> 890d1ed7489b3ce38e78b9f305e6fd127dcd2f94
