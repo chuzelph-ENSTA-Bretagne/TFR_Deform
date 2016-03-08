@@ -16,10 +16,8 @@ import scipy
 Bibliotheques personnalisées
 '''   
 
-import GenerationSignalV2
-import myspectrogram2
-#import WiegnerVille
-import CodeFournis
+import GenerationSignal
+import myspectrogram
 
 '''
 Début des fonction
@@ -149,29 +147,19 @@ def AffichageFFT(x,fs,tau):
     
     
 def genSpectrogram(x,fs,wlen=1024,h=8,nfft=1024):
-    X , T , F = myspectrogram2.myspectrogram(x, wlen, h, nfft, fs)
+    X , T , F = myspectrogram.myspectrogram(x, wlen, h, nfft, fs)
     plt.figure()
     plt.imshow(abs(X), origin='lower', cmap='jet', interpolation='nearest', aspect='auto')
     plt.xlabel('Time')
     plt.ylabel('Frequency')
     plt.colorbar()
-    yl= np.float32(np.linspace(0, len(F)-1, 11))
-    ylocs = np.float32(np.round(np.linspace(0, F[len(F)-1], 11)))
-    plt.yticks(yl, ["%.02f" % i for i in ylocs])
-    
-
     plt.show()
     return T,F,X
  
- 
-'''
-fonctions données --- Partie à supprimer!
-'''
-
 
     
 '''
-#######################  MAIN  ############################
+#######################  Test unitaire  ############################
 '''
 
 
@@ -197,7 +185,7 @@ if __name__ == '__main__':
 #    theta=m.pi #m.pi/4
 #    r0=1
 #    alpha=0
-#    x,t = GenerationSignalV2.Signal(k,r,theta,r0,alpha,tau,nbpts,fr) 
+#    x,t = GenerationSignal.Signal(k,r,theta,r0,alpha,tau,nbpts,fr) 
 #    b=np.random.randn(len(x))*0.01
 #    x=abs(x)-np.mean(abs(x))
 #    AffichageFFT(x,fe,tau)
@@ -213,46 +201,6 @@ if __name__ == '__main__':
 #    x = chirp(t, 0, tau, 300) + chirp(t, 350, tau, 50)
 #    AffichageFFT(x,fe,tau)
 #    T2 , F2 , X2 = genSpectrogram(x,fe,wlen=32,h=1,nfft=1024)
-    
-    '''
-    test de Wiegner-Ville
-    '''
-    
-#    X = WiegnerVille.DWVD(x,fe,tau)
-#    plt.figure()
-#    plt.imshow(abs(X), origin='lower', cmap='jet', interpolation='nearest', aspect='auto')
-#    plt.xlabel('Time')
-#    plt.ylabel('Frequency')
-#    plt.colorbar()
-#    plt.show()
 
-    '''
-    partie test du code fournie
-    '''
-    
-#    test = CodeFournis.stft(x, 1024)
-#    plt.figure()
-#    plt.imshow(np.transpose(abs(test)), origin='lower', cmap='jet', interpolation='nearest', aspect='auto')
-#    plt.xlabel('Time')
-#    plt.ylabel('Frequency')
-#    plt.colorbar()
-    
-    # X2 , T2 , F2 = CodeFournis.wvd(np.transpose(x),N=1024)
-    # plt.figure()
-    # plt.imshow(np.transpose(abs(X2)), origin='lower', cmap='jet', interpolation='nearest', aspect='auto')
-    # plt.xlabel('Time')
-    # plt.ylabel('Frequency')
-    # plt.colorbar()
-    # plt.show()
-    
-    '''
-    partie poubelle
-    '''
-    # X3 , T3 , F3 = CodeFournis.tfrspwv(np.transpose(x),N=1024)
-    # plt.figure()
-    # plt.imshow(np.transpose(abs(X3)), origin='lower', cmap='jet', interpolation='nearest', aspect='auto')
-    # plt.xlabel('Time')
-    # plt.ylabel('Frequency')
-    # plt.colorbar()
-    # plt.show()
+   
     

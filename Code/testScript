@@ -1,0 +1,15 @@
+#!/bin/bash
+
+echo ' '
+echo 'Programme realiser par CHUZEL Philippe pour l''UV 54 et pour le projet TFRDeform'
+echo ' '
+echo ' '
+echo 'Merci d''utiliser ce code. Il lance automatiquement plusieurs scripts python qui peuvent vous servir de base de travail'
+echo ' '
+echo 'Ce script va generer 3 fichier *.pckl dans votre dossier .../TFR_Deform/code'
+echo ' '
+python ObjectDiff.py
+
+
+ 
+exit 0

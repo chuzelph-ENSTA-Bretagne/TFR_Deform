@@ -7,6 +7,8 @@ Created on Sun Oct 25 15:14:25 2015
 import numpy as np
 import scipy
 
+# passage en python de la bibliotheque de Flandrin
+# aide provenant egalement du site http://www.frank-zalkow.de/en/code-snippets/create-audio-spectrograms-with-python.html
 
 def myspectrogram(x, wlen, h, nfft, fs):
     '''
@@ -51,9 +53,5 @@ def myspectrogram(x, wlen, h, nfft, fs):
     t = np.linspace(wlen/2,wlen/2+(coln+1)*h,coln)/fs
     f = np.linspace(0,fs/2,rown) #np.array(range(int(rown)))*fs/nfft
     return stft , t , f
-    
-    # calculate the time and frequency vectors
-    #    t = (wlen/2:h:wlen/2+(coln-1)*h)/fs;
-    #    f = (0:rown-1)*fs/nfft;
     
     
