@@ -181,7 +181,7 @@ class ObjectDiff():
 #### Peut servir de test unitaire pour voir comment utiliser la classe generee
 def quickStart():
 	# parametres du probleme
-	k=25
+	k=100
 	radius0=1.
 	alpha=0.
 	x=0
@@ -189,19 +189,45 @@ def quickStart():
 	xm = 5.
 	ym = 0.
 	freq=500.							# frequence de dillatation/contraction du cylindre s-1
-	tau = 4								# duree de la simulation en seconde
-	nbpts = 20*tau*freq					# nombre de point souhaite. PENSER A METTRE BEAUCOUP DE POINT!!!!!!!
+	tau = 2								# duree de la simulation en seconde
+	nbpts = 20*tau*max(freq,k)					# nombre de point souhaite. PENSER A METTRE BEAUCOUP DE POINT!!!!!!!
 	t = np.linspace(0,tau,nbpts)		# Interval de temps d'etude. A donner en debut de simulation
 	dt = tau/nbpts						# pas de temps, a calculer au debut du programme
 
 
-	# creation de trois objets, deux en translation, un en rotation.
+	# Creation de trois objets, deux en translation, un en rotation.
+	print("trans1.pckl...")
 	Obj1 = ObjectDiff(t,dt,x,y,alpha,xm,ym,k,radius0=1,r0var=0.0,freq = 100,Vx = 5,Vy = 0, Vtheta = 0*2*m.pi/360)
 	Obj1.run(False,True,"trans1.pckl")
+	print("Done")
+	print("trans2.pckl...")
 	Obj2 = ObjectDiff(t,dt,10,y,alpha,xm,ym,k,radius0=1,r0var=0.0,freq = 100,Vx = -5,Vy = 0, Vtheta = 0*2*m.pi/360)
 	Obj2.run(False,True,"trans2.pckl")
+	print("Done")
+	print("rot1.pckl...")
 	Obj3 = ObjectDiff(t,dt,3,0,alpha,xm,ym,k,radius0=1,r0var=0.0,freq = 100,Vx = 0,Vy = 0, Vtheta = 90*2*m.pi/360)
 	Obj3.run(False,True,"rot1.pckl")
+	print("Done")
+
+	# Creation d'un objet immobile, mais qui se dilate/contracte.
+	print("unanimate.pckl...")
+	Obj3 = ObjectDiff(t,dt,3,0,alpha,xm,ym,k,radius0=1,r0var=0.1,freq = 100,Vx = 0,Vy = 0, Vtheta = 0*2*m.pi/360)
+	Obj3.run(False,True,"unanimate.pckl")
+	print("Done")
+
+	# Creation de trois objets, deux en translation, un en rotation, tous avec une dilatation / contraction du rayon.
+	print("trans1WD.pckl...")
+	Obj3 = ObjectDiff(t,dt,x,y,alpha,xm,ym,k,radius0=1,r0var=0.1,freq = 100,Vx = 5,Vy = 0, Vtheta = 0*2*m.pi/360)
+	Obj3.run(False,True,"trans1WD.pckl")
+	print("Done")
+	print("trans2WD.pckl...")
+	Obj3 = ObjectDiff(t,dt,10,y,alpha,xm,ym,k,radius0=1,r0var=0.1,freq = 100,Vx = 0,Vy = -5, Vtheta = 0*2*m.pi/360)
+	Obj3.run(False,True,"trans2WD.pckl")
+	print("Done")
+	print("rot1WD.pckl...")
+	Obj3 = ObjectDiff(t,dt,3,0,alpha,xm,ym,k,radius0=1,r0var=0.1,freq = 100,Vx = 0,Vy = 0, Vtheta = 90*2*m.pi/360)
+	Obj3.run(False,True,"rot1WD.pckl")
+	print("Done")
 
 
 if __name__ == '__main__': 

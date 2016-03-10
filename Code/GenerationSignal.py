@@ -10,7 +10,10 @@ import math as m
 import scipy as sc
 import scipy.special as spe
 import pylab as py
-
+from scipy.fftpack import fft, fftfreq
+from scipy.signal import chirp
+import GenerationSignal
+import myspectrogram
 
 # Cas du cylindre mou, champs nul aux niveau du contour en r
     
@@ -42,13 +45,53 @@ def Signal(k,r,theta,r0,alpha,tau,npts,freq):
     Field=[Field_scat(k,r0var,r,alpha,theta,N) for r0var in V]+ Field_inc
     return Field,t
 
+
+def AffichageFFT(x,fs,tau):
+    FenAcq = x.size             # taille de la fenetre temporelle
+    t=sc.linspace(0, tau, x.size)
+    
+    # calcul de la TFD par l'algo de FFT
+    signal_FFT = abs(fft(x))    # on ne recupere que les composantes reelles
+    
+    # recuperation du domaine fréquentiel
+    signal_freq = fftfreq(FenAcq,1/float(fs))
+    
+    # extraction des valeurs reelles de la FFT et du domaine frequentiel
+    signal_FFT = signal_FFT[0:len(signal_FFT)//2]
+    signal_freq = signal_freq[0:len(signal_freq)//2]  
+    
+    #affichage du signal
+    py.figure()
+    py.subplot(211)
+    py.title('Signal et son spectre')
+    py.plot(t, x)
+    py.xlabel('Temps (s)')
+    py.ylabel('Amplitude')
+    
+    #affichage du spectre du signal
+    py.subplot(212)
+    py.plot(signal_freq,signal_FFT)
+    py.xlabel('Frequence (Hz)') 
+    py.ylabel('Amplitude')
+    py.show()
+    
+    
+def genSpectrogram(x,fs,wlen=1024,h=8,nfft=1024):
+    X , T , F = myspectrogram.myspectrogram(x, wlen, h, nfft, fs)
+    py.figure()
+    py.imshow(abs(X), origin='lower', cmap='jet', interpolation='nearest', aspect='auto')
+    py.xlabel('Time')
+    py.ylabel('Frequency')
+    py.colorbar()
+    py.show()
+    return T,F,X
     
 if __name__ == '__main__':
-    freq=250.
-    tau = 5
-    nbpts = 100*2*freq
+    freq=500.
+    tau = 0.1
+    nbpts = 200*tau*freq
     
-    k=5
+    k=100
     r=20.
     theta=0.
     r0=1.
@@ -57,6 +100,5 @@ if __name__ == '__main__':
     # code de départ
     S,t = Signal(k,r,theta,r0,alpha,tau,nbpts,freq)
     
-    py.plot(t,np.real(S))
-    
-    py.show()
+    AffichageFFT(S,200*freq,tau)
+    T2 , F2 , X2 = genSpectrogram(S,200*freq,wlen=1024,h=1,nfft=2048)

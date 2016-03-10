@@ -23,80 +23,6 @@ import myspectrogram
 Début des fonction
 '''
 
-'''
-génère les coefficient An, vrai dans tous les cas
-'''
-
-def An(alpha,n):
-    return 1j**n*np.exp(-1j*n*alpha)
-
-'''
-Définition des Bn    OK A NE PAS TOUCHER!!!!!
-'''
-    
-# Cas du cylindre mou, champs nul aux niveau du contour en r0
-def Bn(alpha,k,r0,n):
-    b=complex(scipy.special.jv(n, k*r0))
-    a=complex(scipy.special.hankel1(n, k*r0))
-    A=An(alpha,n)
-    return -A*b/a
-    
-    
-''' 
-Definition des des Bn a un t donné    OK A NE PAS TOUCHER!!!!!
-'''
-
-def GenSignal(k,r0,alpha,theta,N):
-    # alpha : angle d'incidence de l'onde
-    # theta : angle avec l'observateur
-    # r     : distance de l'observateur au cylindre
-    # r0    : rayon du cylindre
-    # k     : w/c
-    # N     : nombre de terme de la serie
-    
-    # Renvoie la liste des coefficient Bn de l'onde diffusée
-    # Generation de Bn selon k*r0 et les composante du problème
-    
-    # Calcule des coefficients     
-    B=np.zeros(2*N+1,dtype=np.complex64)
-    for j in range(len(B)):
-        B[j]=Bn(alpha,k,r0,-N+j)
-    return B
-    
-''' 
-Definition du signal    OK A NE PAS TOUCHER!!!!!
-'''
-
-def Signal(k,r0,r,alpha,theta,tau,h):
-    # Nombre de terme de la serie
-    N = k*r0 + 30  
-    t = scipy.linspace(0,tau,tau*h, endpoint=False)
-    S = scipy.sin(250*2*m.pi*t)
-    p = np.zeros(len(t),dtype=np.complex64)
-    for j in range(len(t)):
-        B = GenSignal(k,r0+r0*0.1*S[j],alpha,theta,N)
-        tmp=complex(0)
-        for l in range(len(B)):
-            tmp=complex(tmp+B[l]*np.exp(1j*(-N+l)*theta)*scipy.special.hankel1(-N+l, k*r))
-        p[j]=tmp
-    return p,t
-    
-def SignalEllipse(k,a,b,w0,r,alpha,theta,tau,h):
-    # Nombre de terme de la serie
-    r0=m.sqrt((a*a+b*b)/2)
-    N = k*r0 + 30  
-    
-    t = scipy.linspace(0,tau,tau*h, endpoint=False)
-    p = np.zeros(len(t),dtype=np.complex64)
-    for j in range(len(t)):
-        #Calcul du r(t)
-        rt=m.sqrt(a*a*m.cos(2*m.pi*t[j]*w0+alpha)**2+b*b*m.sin(2*m.pi*t[j]*w0+alpha)**2)
-        B = GenSignal(k,rt,alpha,theta,N)
-        tmp=complex(0)
-        for l in range(len(B)):
-            tmp=complex(tmp+B[l]*np.exp(1j*(-N+l)*theta)*scipy.special.hankel1(-N+l, k*r))
-        p[j]=tmp
-    return p,t
     
 def GenerationSignalSimple(tau,h,w1,w2,t1,t2):
     t = np.arange(0.0, tau, h)
@@ -137,13 +63,13 @@ def AffichageFFT(x,fs,tau):
     plt.plot(t, x)
     plt.xlabel('Temps (s)')
     plt.ylabel('Amplitude')
-    plt.show()
     
     #affichage du spectre du signal
     plt.subplot(212)
     plt.plot(signal_freq,signal_FFT)
     plt.xlabel('Frequence (Hz)') 
     plt.ylabel('Amplitude')
+    plt.show()
     
     
 def genSpectrogram(x,fs,wlen=1024,h=8,nfft=1024):
@@ -171,25 +97,24 @@ if __name__ == '__main__':
     t2=0.5
     f1=200
     f2=150
-    x=GenerationSignalSimple(tau,1/float(fe),f1,f2,t1,t2)
-    AffichageFFT(x,fe,tau)
-    X , T , F = genSpectrogram(x,fe,wlen=32,h=8,nfft=1024)
+    #x=GenerationSignalSimple(tau,1/float(fe),f1,f2,t1,t2)
+    #AffichageFFT(x,fe,tau)
+    #X , T , F = genSpectrogram(x,fe,wlen=32,h=8,nfft=1024)
     
 
-#    fe=500
-#    fr=50
-#    tau = 5
-#    nbpts = tau*fe
-#    k=5
-#    r=20
-#    theta=m.pi #m.pi/4
-#    r0=1
-#    alpha=0
-#    x,t = GenerationSignal.Signal(k,r,theta,r0,alpha,tau,nbpts,fr) 
-#    b=np.random.randn(len(x))*0.01
-#    x=abs(x)-np.mean(abs(x))
-#    AffichageFFT(x,fe,tau)
-#    T2 , F2 , X2 = genSpectrogram(x,fe,wlen=32,h=1,nfft=1024)
+    fe=1000
+    fr=50
+    tau = 1
+    nbpts = tau*fe
+    k=5
+    r=20
+    theta=m.pi #m.pi/4
+    r0=1
+    alpha=0
+    x,t = GenerationSignal.Signal(k,r,theta,r0,alpha,tau,nbpts,fr) 
+    x=abs(x)-np.mean(abs(x))
+    AffichageFFT(x,fe,tau)
+    T2 , F2 , X2 = genSpectrogram(x,fe,wlen=32,h=1,nfft=1024)
     
     '''
     Partie test de fonction avec signal chirp
