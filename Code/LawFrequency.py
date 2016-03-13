@@ -46,11 +46,11 @@ def lawFrequency(tfr,t,f):
 
 			# test si un maximum a pu etre trouve dans le cas ou la fonction find_peaks_cwt n'a pas ete concluante
 			else:
-				if(max(tfr[:,0])!=0):
+				if(max(tfr[:,i])!=0):
 					a = 0
 					var = 0
 					# boucle qui sert a trouve la position du max... Cela n'est pas a priori une fonction par defaut de python...
-					for l in range(len(tfr[:,0])):
+					for l in range(len(tfr[:,i])):
 						if(tfr[l,i]>var):
 							var = tfr[l,i]
 							a = l
@@ -64,7 +64,7 @@ def lawFrequency(tfr,t,f):
 			Indice = 0
 			for j in [-1,0,1]:
 				if(Vartmp<tfr[k[i-1]+j,i]):
-					Vartmp = tmp[k[i-1]+j,i]
+					Vartmp = tfr[k[i-1]+j,i]
 					Indice = j
 			k[i] = k[i-1] + Indice
 			tmp[k[i],i] = 1

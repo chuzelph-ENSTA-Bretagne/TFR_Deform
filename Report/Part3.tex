@@ -11,6 +11,76 @@ The main purpose of those article is to present an algorithm which allow us to f
 
 The seam carving algorithm can be express by the following line:
 
+\begin{algorithm}
+  \caption{SEAM CARVING algorithm }
+  
+  \textbf{Inputs}% Inputs section
+  \begin{algorithmic}[1]
+    \STATE Matrix TFR
+    \STATE Vector $T$ time
+    \STATE Vector $F$ frequency
+  \end{algorithmic}
+  \bigskip
+
+  \textbf{Output}% Output section
+  \begin{algorithmic}[1]
+    \STATE Vector $Value f(t) of the first frequency law found$
+  \end{algorithmic}
+  \bigskip
+  
+  \textbf{Initialization}% Initialization section
+  \begin{algorithmic}[1]
+   	\STATE $init\gets 0$
+   	\STATE $i\gets 0$
+	\STATE $k\gets zeros(len(t),1)$
+  \end{algorithmic}
+  
+  
+  \textbf{Algorithm}% Inputs section
+  \begin{algorithmic}[1]
+	\WHILE{i<len of T}
+
+	 	
+	 	\IF{i==0 or init == 0}
+     	  	\STATE $peakind =findPeaksCwt($TFR$[:,i])$
+     	
+	 	
+  	 		\IF{$len(peakind)!=0$}
+     	  		\STATE $tmp[peakind[0],i] = 1$
+				\STATE $k[i] = peakind[0]$
+				\STATE $init=1$
+				
+	 	
+			\ELSE{}
+				\IF{max(TFR[:,i])!=0)}
+     	  			\STATE $a,ind = max($TFR$[:,i]) $
+					\STATE $k[i]=ind$
+					\STATE $init=1$
+				\ENDIF
+			\ENDIF
+				
+		\ELSE
+			\STATE $Indice = 0$
+			\STATE $Vartmp = 0$
+			\FOR{$j\in [-1,0,1]$}
+  	 			\IF{$Vartmp<$TFR$[k[i-1]+j,i]$}
+					\STATE $Vartmp = $TFR$[k[i-1]+j,i]$
+					\STATE $Indice = j$
+				\ENDIF
+				\STATE $k[i] = k[i-1] + Indice$
+				\STATE $tmp[k[i],i] = 1$
+			\ENDFOR
+  	 	
+	 	\ENDIF
+	 	\STATE $i++$
+	\ENDWHILE 
+	
+	
+  return $k$
+
+
+  \end{algorithmic}
+\end{algorithm}
 
 \chapter{Application on our project}
 
