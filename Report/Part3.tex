@@ -1,17 +1,29 @@
 
 
 
-\chapter{Seam carving algorithm}
+\chapter{Seam carving algorithm.}
 
-For this part, most of the tools come from those references \cite{Doopler1} \cite{Doopler2} \cite{Doopler3}.
-\textbf{For now, I'm still working on this part so I will complete this part as soon as I get result.}
+\section{Presentation of the algorithm.}
 
-At the beginning, the seam carving algorithm is used in order to reduce the size of an image and keep some proportion of the image. Nevertheless, it can be used in this project in order to find a approximation of the frequency law which compose a signal.
-The main purpose of those article is to present an algorithm which allow us to find the speed of an object thanks to the Doppler effect but it can be use here in order to find the frequency laws which compose the signal. With this, we can find which are the component of a signal. In the end, we have a way to find correlation between the electromagnetic signature and the kind of from changes of an object.
+
+At the beginning, the seam carving algorithm is used in order to reduce the size of an image and keep some proportion of the image. The main idea of this algorithm is to find the path in an image which have the least importance and automatically remove them in order to resize the image \cite{avidan2007seam}.
+
+The following figure show what kind of result can be expected and the different step of the algorithm:
+
+\begin{figure}[H]
+\centering
+    \includegraphics[scale=1,angle=0]{Images/ankit-rahul.jpg}
+    \caption{Example of the seam carving algorithm, coming from the website \textit{http://courses.cs.washington.edu/courses/cse557/08wi/projects/final/artifacts.html}.}
+    \label{fig:ankit-rahul}
+\end{figure}
+
+
+Nevertheless, it can be used in this project in order to find a approximation of the frequency law which compose a signal. In the time frequency representation, the different laws which compose the signal represent a path in the image and we can use this algorithm in order to find an empiric expression $f(t)$.
+The main purpose of those articles \cite{barnwal2013doppler} \cite{couvreur1997doppler} \cite{cevher2009vehicle} is to present how this algorithm can be implement in order to find the speed of an object thanks to the Doppler effect but it can be use here in order to find the frequency laws which compose the signal. 
 
 The seam carving algorithm can be express by the following line:
 
-\begin{algorithm}
+\begin{algorithm}[H]
   \caption{SEAM CARVING algorithm }
   
   \textbf{Inputs}% Inputs section
@@ -24,7 +36,7 @@ The seam carving algorithm can be express by the following line:
 
   \textbf{Output}% Output section
   \begin{algorithmic}[1]
-    \STATE Vector $Value f(t) of the first frequency law found$
+    \STATE Vector Value $f(t)$ of the first frequency law found
   \end{algorithmic}
   \bigskip
   
@@ -38,39 +50,32 @@ The seam carving algorithm can be express by the following line:
   
   \textbf{Algorithm}% Inputs section
   \begin{algorithmic}[1]
+  %\textit{Construction of the path}%
 	\WHILE{i<len of T}
 
-	 	
+	 	%\textit{Initialization, either at the beginning or if no law has been found yet.}%
 	 	\IF{i==0 or init == 0}
-     	  	\STATE $peakind =findPeaksCwt($TFR$[:,i])$
+     	  	\STATE $peakind\gets$ peak of the vector TFR$[:,i]$
      	
 	 	
+	 	%\textit{if at least one peak has been found}%
   	 		\IF{$len(peakind)!=0$}
-     	  		\STATE $tmp[peakind[0],i] = 1$
-				\STATE $k[i] = peakind[0]$
-				\STATE $init=1$
+				\STATE $k[i]\gets peakind[0]$
+				\STATE $init\gets 1$
 				
 	 	
 			\ELSE{}
+				%\textit{else if a maximum has been found}%
 				\IF{max(TFR[:,i])!=0)}
-     	  			\STATE $a,ind = max($TFR$[:,i]) $
-					\STATE $k[i]=ind$
-					\STATE $init=1$
+					\STATE $k[i]\gets$ indice of the maximum of the vector $TFR$[:,i]
+					\STATE $init\gets 1$
 				\ENDIF
 			\ENDIF
 				
+		%\textit{A law has been found and we build the path step by step according to the neighbourhood of the current point.}%
 		\ELSE
-			\STATE $Indice = 0$
-			\STATE $Vartmp = 0$
-			\FOR{$j\in [-1,0,1]$}
-  	 			\IF{$Vartmp<$TFR$[k[i-1]+j,i]$}
-					\STATE $Vartmp = $TFR$[k[i-1]+j,i]$
-					\STATE $Indice = j$
-				\ENDIF
-				\STATE $k[i] = k[i-1] + Indice$
-				\STATE $tmp[k[i],i] = 1$
-			\ENDFOR
-  	 	
+			\STATE $Indice\gets$ the value of j, when the values $TFR$[k[i-1]+j,i] is maximize, for j in $[-1,0,1]$
+			\STATE $k[i] = k[i-1] + Indice$
 	 	\ENDIF
 	 	\STATE $i++$
 	\ENDWHILE 
@@ -82,7 +87,112 @@ The seam carving algorithm can be express by the following line:
   \end{algorithmic}
 \end{algorithm}
 
-\chapter{Application on our project}
+\section{Application on a Doppler signal.}
 
-We will now apply this algorithm to the time frequency representation coming from the part 2 and from the signal generate in the part 1.
-\textbf{For now, I'm still working on this part so I will complete this part as soon as I get result.}
+We can apply easily this algorithm on a Doppler signal. Let suppose that an object is moving toward an observer and it is sending a wave (sound for example). The frequency of the signal is changed because of the movement of this object. The following figure shows how the signal is affected by the movement:
+
+\begin{figure}[H]
+\centering
+    \includegraphics[scale=0.7,angle=0]{Images/doopler_signal.png}
+    \caption{Time representation and instantaneous frequency of the signal send.}
+    \label{fig:doopler_signal}
+\end{figure}
+
+The next figure show the time-frequency representation of the signal:
+
+\begin{figure}[H]
+\centering
+    \includegraphics[scale=0.6,angle=0]{Images/doopler_signal_spec.png}
+    \caption{Time/Frequency representation of the signal send.}
+    \label{fig:doopler_signal_spec}
+\end{figure}
+
+Thanks to some tools coming from the image processing, we can improve this result in order to keep only the relevant points which contain information:
+
+\begin{figure}[H]
+\centering
+    \includegraphics[scale=0.7,angle=0]{Images/varseuil_signal.png}
+    \caption{Time/Frequency representation of the signal send after treatment.}
+    \label{fig:varseuil_signal}
+\end{figure}
+
+Finally, when we use the seam carving algorithm, we achieve to get this result:
+
+\begin{figure}[H]
+\centering
+    \includegraphics[scale=0.7,angle=0]{Images/doopler_signal_esti.png}
+    \caption{Time/Frequency representation of the signal send after treatment.}
+    \label{fig:doopler_signal_spec}
+\end{figure}
+
+The last part is to use interpolation algorithm such as fit spline interpolation in order to find an approximation of the law found. The following figure shows how the fit spline interpolation can provide some results:
+
+\begin{figure}[H]
+\centering
+    \includegraphics[scale=0.35,angle=0]{Images/spline_pour_la_loi_de_frequence_trouvee.png}
+    \caption{Spline interpolation result. In green the value of the interpolation and in blue the value of the law found}
+    \label{fig:spline_pour_la_loi_de_frequence_trouvee}
+\end{figure}
+
+Nevertheless, the result given by this method can be disturbed by the beginning of the signal. For example, the following figure shows how the first values of the law found can impact the interpolation.
+
+\begin{figure}[H]
+\centering
+    \includegraphics[scale=0.7,angle=0]{Images/spline_pour_la_loi_de_frequence_trouvee2.png}
+    \caption{Spline interpolation with bad result. In green the value of the interpolation and in blue the value of the law found}
+    \label{fig:spline_pour_la_loi_de_frequence_trouvee2}
+\end{figure}
+
+As the different part have shown, we have now all the tools needed in order to create and then analyse any kind of signal, including the signal details in the introduction.
+
+\chapter{Application on our project.}
+
+In this part, we will apply all the result of the previous part in order to analyse understand the signal generate by the cylinder as it was explain in the introduction.
+
+\section{A first application.}
+
+Let consider a cylinder which \textbf{its radius don't change through time} but it's moving according to the following figure.
+
+\begin{figure}[H]
+\centering
+    \includegraphics[scale=0.6,angle=0]{Images/Position.png}
+    \caption{First situation studied. The object is moving linearly.}
+    \label{fig:moving linearly}
+\end{figure}
+
+The following figure shows the spectrogram obtain after we analyse the signal without its means.
+
+\begin{figure}[H]
+\centering
+    \includegraphics[scale=0.6,angle=0]{Images/SpectrogramObjMov.png}
+    \caption{Spectrogram of an object moving linearly.}
+    \label{fig:SpectrogramObjMov}
+\end{figure}
+
+And this figure show the result of the seam carving algorithm:
+
+\begin{figure}[H]
+\centering
+    \includegraphics[scale=0.6,angle=0]{Images/SpectrogramObjMov_LawFound.png}
+    \caption{Seam carving application.}
+    \label{fig:SpectrogramObjMov_LawFound}
+\end{figure}
+
+As you can see, we are in the same configuration as the Doppler signal we have studied in the previous part. There is a frequency which its value received by the observer is disturbed by the movement. Futhermore, the seam carving apply perfectly to this kind of figure as the figure \label{SpectrogramObjMov_LawFound} shows it.
+
+\section{Application in view to a verification in the anechoic chamber.}
+
+The school ENSTA Bretagne has a anechoic chamber in which we can simulate the field generate and scatter by object but we can only give a circular movement to those object. Thanks to the code we have created, we know that the wave scatter and it's time frequency representation will be:
+
+\begin{figure}[H]
+\centering
+    \includegraphics[scale=0.35,angle=0]{Images/TFR3.png}
+    \caption{Time frequency representation of a cylinder with a circular movement.}
+    \label{fig:TFR3}
+\end{figure}
+
+The partial sinusoid we can see in this time frequency representation is conformed to the theory but the signal contains too much energy when it's close to the observer which explains why we don't see all the curve.
+
+Thanks to this code, we can generate easily any signal for any object and we can check if the theoretical results are corroborated by the experimental results.
+
+\section{Application to object which its form change through time.}

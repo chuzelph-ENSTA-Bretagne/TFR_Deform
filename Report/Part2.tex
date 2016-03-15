@@ -7,7 +7,7 @@ Let consider the signal chirp below which correspond to a signal which its frequ
 
 \begin{figure}[H]
 \centering
-    \includegraphics[scale=0.6,angle=0]{ChirpTF.png}
+    \includegraphics[scale=0.6,angle=0]{Images/ChirpTF.png}
     \caption{Time and frequency representation of a chirp signal.}
     \label{fig:ChirpTF}
 \end{figure}
@@ -16,7 +16,7 @@ The figure below shows the results we can get:
 
 \begin{figure}[H]
 \centering
-    \includegraphics[scale=0.6,angle=0]{Chirp_STFT.png}
+    \includegraphics[scale=0.6,angle=0]{Images/Chirp_STFT.png}
     \caption{STFT/spectrogram of a chirp signal.}
     \label{fig:Chirp_STFT}
 \end{figure}
@@ -30,14 +30,14 @@ The Wigner-Ville distribution allows us to get a far more accurate time frequenc
 The Wigner-Ville Distribution (WVD) of a signal y(t), denoted by $W_z(t,f)$, is defined as :
 
 \begin{equation}
-W_z(t,f) = \int_{n=-\infty}^{\infty} z ( t + \tau / 2 ) z^* (t - \tau / 2) e^{-j 2 \pi f \tau d \tau}
+W_z(t,f) = \int_{n=-\infty}^{\infty} z ( t + \tau / 2 ) z^* (t - \tau / 2) e^{-j 2 \pi f \tau} d \tau
 \end{equation}
 
 The following figure shows the result of the Wigner-Ville representation on the previous signal:
 
 \begin{figure}[H]
 \centering
-    \includegraphics[scale=0.5,angle=0]{Chirp_WV.png}
+    \includegraphics[scale=0.5,angle=0]{Images/Chirp_WV.png}
     \caption{Wigner-Ville of a chirp signal.}
     \label{fig:Chirp_WV}
 \end{figure}
@@ -46,21 +46,21 @@ Nevertheless, if we consider the following signal which contains two sinusoids, 
 
 \begin{figure}[H]
 \centering
-    \includegraphics[scale=0.5,angle=0]{SignalSimple.png}
+    \includegraphics[scale=0.5,angle=0]{Images/SignalSimple.png}
     \caption{Time and frequency representation of the signal with two frequency laws.}
     \label{fig:SignalSimple}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-    \includegraphics[scale=0.5,angle=0]{figure_6STFT.png}
+    \includegraphics[scale=0.5,angle=0]{Images/figure_6STFT.png}
     \caption{Spectrogram of the signal.}
     \label{fig:SignalSimple_Spectrogram}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-    \includegraphics[scale=0.5,angle=0]{SignalSimple_WV.png}
+    \includegraphics[scale=0.5,angle=0]{Images/SignalSimple_WV.png}
     \caption{Wigner-Ville of the signal.}
     \label{fig:SignalSimple_WV}
 \end{figure}
@@ -74,7 +74,7 @@ As you can see, there are an interference which imply to analyse this figure if 
 The  Pseudo-Wigner-Ville Distribution is defined as:
 
 \begin{equation}
-W_z(t,f) = \int_{n=-\infty}^{\infty} h ( \tau ) z ( t + \tau / 2 ) z^* (t - \tau / 2) e^{-j 2 \pi f \tau d \tau}
+W_z(t,f) = \int_{n=-\infty}^{\infty} h ( \tau ) z ( t + \tau / 2 ) z^* (t - \tau / 2) e^{-j 2 \pi f \tau} d \tau
 \end{equation}
 
 where $h$ is a regular window. This windowing is equivalent to a frequency smoothing of the WVD so It leads to the attenuation of the interference terms but it will damage the signal representation.
@@ -83,14 +83,14 @@ The result for the previous signal is below:
 
 \begin{figure}[H]
 \centering
-    \includegraphics[scale=0.5,angle=0]{SignalSimple_PSWV.png}
+    \includegraphics[scale=0.5,angle=0]{Images/SignalSimple_PSWV.png}
     \caption{Pseudo Smooth Wigner-Ville of the signal.}
     \label{fig:SignalSimple_PSWV}
 \end{figure}
 
 \chapter*{Conclusion}
 \bigskip
-All those representation present some interests or disadvantages. Nevertheless, if we want to get as much information as we can, we will need to switch between a representation to another according to the kind of signal we have. At the beginning of the project, an implementation of the Flandrin library coming from Matlab was implemented but we found afterwards a python library which was already doing this part. The following link shows the function of this library and the second one explain how it can be install on your computer. The previous pictures came from our own functions but the next pictures will use the function of this library.
+All those representations present some interests or disadvantages. Nevertheless, if we want to get as much information as we can, we will need to switch between a representation to another according to the kind of signal we have. At the beginning of the project, an implementation of the Flandrin library coming from Matlab was implemented but we found afterwards a python library which was already doing this part. The following link shows the function of this library and the second one explain how it can be install on your computer. The previous pictures came from our own functions but the next pictures will use the function of this library.
 
 \medskip
 

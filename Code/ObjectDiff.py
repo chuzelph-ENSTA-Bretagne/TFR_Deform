@@ -14,17 +14,17 @@ from SaveLoadData import *
 class ObjectDiff():
 
 	'''
-	x,y                 : position de l'objet
-	xm, ym              : position de l'observateur, supposé constant dans toute la simulation
-	xmp, ymp            : position de l'observateur dans le repere du cylindre
-	rp, thetap          : position de l'observateur dans le repere du cylindre en coordonnees polaire
-	alpha               : parametre du probleme, angle de l'onde incidente
-	radius0,r0var		: rayon initial et taux de variation du rayon du cylindre
-	freq				: fréquence de dillatation/contraction du cylindre
-	Vx,Vy				: vitesse de l'objet dans l'axe Ox et Oy
-	Vtheta				: vitesse de rotation de l'objet selon l'axe Oz
-	k					: paramètre de l'onde
-	t,dt				: interval de temps de la simulation et son pas, a donner ABSOLUMENT au debut de la simulation
+	x,y                             : position de l'objet
+	xm, ym                          : position de l'observateur, supposé constant dans toute la simulation
+	xmp, ymp                        : position de l'observateur dans le repere du cylindre
+	rp, thetap                      : position de l'observateur dans le repere du cylindre en coordonnees polaire
+	alpha                           : parametre du probleme, angle de l'onde incidente
+	radius0,r0var                   : rayon initial et taux de variation du rayon du cylindre
+	freq                            : fréquence de dillatation/contraction du cylindre
+	Vx,Vy                           : vitesse de l'objet dans l'axe Ox et Oy
+	Vtheta                          : vitesse de rotation de l'objet selon l'axe Oz
+	k                               : paramètre de l'onde
+	t,dt                            : interval de temps de la simulation et son pas, a donner ABSOLUMENT au debut de la simulation
 	'''
 
 
@@ -188,49 +188,72 @@ def quickStart():
 	y=10
 	xm = 5.
 	ym = 0.
-	freq=500.							# frequence de dillatation/contraction du cylindre s-1
+	# freq : frequence de dillatation/contraction du cylindre s-1
 	tau = 2								# duree de la simulation en seconde
 	nbpts = 20*tau*max(freq,k)					# nombre de point souhaite. PENSER A METTRE BEAUCOUP DE POINT!!!!!!!
 	t = np.linspace(0,tau,nbpts)		# Interval de temps d'etude. A donner en debut de simulation
 	dt = tau/nbpts						# pas de temps, a calculer au debut du programme
 
 
-	# Creation de trois objets, deux en translation, un en rotation.
+	# Creation de quatres objets, deux en translation, deux en rotation.
 	print("trans1.pckl...")
-	Obj1 = ObjectDiff(t,dt,x,y,alpha,xm,ym,k,radius0=1,r0var=0.0,freq = 100,Vx = 5,Vy = 0, Vtheta = 0*2*m.pi/360)
+	Obj1 = ObjectDiff(t,dt,x,y,alpha,xm,ym,k,radius0=1,r0var=0.0,freq=100.,Vx = 5,Vy = 0, Vtheta = 0*2*m.pi/360)
 	Obj1.run(False,True,"trans1.pckl")
 	print("Done")
 	print("trans2.pckl...")
-	Obj2 = ObjectDiff(t,dt,10,y,alpha,xm,ym,k,radius0=1,r0var=0.0,freq = 100,Vx = -5,Vy = 0, Vtheta = 0*2*m.pi/360)
+	Obj2 = ObjectDiff(t,dt,10,y,alpha,xm,ym,k,radius0=1,r0var=0.0,freq=100.,Vx = -5,Vy = 0, Vtheta = 0*2*m.pi/360)
 	Obj2.run(False,True,"trans2.pckl")
 	print("Done")
 	print("rot1.pckl...")
-	Obj3 = ObjectDiff(t,dt,3,0,alpha,xm,ym,k,radius0=1,r0var=0.0,freq = 100,Vx = 0,Vy = 0, Vtheta = 90*2*m.pi/360)
+	Obj3 = ObjectDiff(t,dt,3,0,alpha,xm,ym,k,radius0=1,r0var=0.0,freq=100.,Vx = 0,Vy = 0, Vtheta = 90*2*m.pi/360)
 	Obj3.run(False,True,"rot1.pckl")
+	print("Done")
+	print("rot2.pckl...")
+	Obj1 = ObjectDiff(t,dt,0,3,alpha,xm,ym,k,radius0=1,r0var=0.0,freq=100.,Vx = 0,Vy = 0, Vtheta = 90*2*m.pi/360)
+	Obj1.run(True,True,"rot2.pckl")
 	print("Done")
 
 	# Creation d'un objet immobile, mais qui se dilate/contracte.
 	print("unanimate.pckl...")
-	Obj3 = ObjectDiff(t,dt,3,0,alpha,xm,ym,k,radius0=1,r0var=0.1,freq = 100,Vx = 0,Vy = 0, Vtheta = 0*2*m.pi/360)
+	Obj3 = ObjectDiff(t,dt,3,0,alpha,xm,ym,k,radius0=1,r0var=0.1,freq=100.,Vx = 0,Vy = 0, Vtheta = 0*2*m.pi/360)
 	Obj3.run(False,True,"unanimate.pckl")
 	print("Done")
 
 	# Creation de trois objets, deux en translation, un en rotation, tous avec une dilatation / contraction du rayon.
 	print("trans1WD.pckl...")
-	Obj3 = ObjectDiff(t,dt,x,y,alpha,xm,ym,k,radius0=1,r0var=0.1,freq = 100,Vx = 5,Vy = 0, Vtheta = 0*2*m.pi/360)
+	Obj3 = ObjectDiff(t,dt,x,y,alpha,xm,ym,k,radius0=1,r0var=0.1,freq=100.,Vx = 5,Vy = 0, Vtheta = 0*2*m.pi/360)
 	Obj3.run(False,True,"trans1WD.pckl")
 	print("Done")
 	print("trans2WD.pckl...")
-	Obj3 = ObjectDiff(t,dt,10,y,alpha,xm,ym,k,radius0=1,r0var=0.1,freq = 100,Vx = 0,Vy = -5, Vtheta = 0*2*m.pi/360)
+	Obj3 = ObjectDiff(t,dt,10,y,alpha,xm,ym,k,radius0=1,r0var=0.1,freq=100.,Vx = 0,Vy = -5, Vtheta = 0*2*m.pi/360)
 	Obj3.run(False,True,"trans2WD.pckl")
 	print("Done")
 	print("rot1WD.pckl...")
-	Obj3 = ObjectDiff(t,dt,3,0,alpha,xm,ym,k,radius0=1,r0var=0.1,freq = 100,Vx = 0,Vy = 0, Vtheta = 90*2*m.pi/360)
+	Obj3 = ObjectDiff(t,dt,3,0,alpha,xm,ym,k,radius0=1,r0var=0.1,freq=100.,Vx = 0,Vy = 0, Vtheta = 90*2*m.pi/360)
 	Obj3.run(False,True,"rot1WD.pckl")
 	print("Done")
 
 
+def verifSignal(n):
+	k=100
+	radius0=1.
+	alpha=0.
+	x=0
+	y=10
+	xm = 5.
+	ym = 0.
+	# freq : frequence de dillatation/contraction du cylindre s-1
+	tau = 2								# duree de la simulation en seconde
+	nbpts = 20*tau*max(freq,k)					# nombre de point souhaite. PENSER A METTRE BEAUCOUP DE POINT!!!!!!!
+	t = np.linspace(0,tau,nbpts)		# Interval de temps d'etude. A donner en debut de simulation
+	dt = tau/nbpts						# pas de temps, a calculer au debut du programme
+	for i in range(n+1):
+		Obj3 = ObjectDiff(t,dt,0+i,10,alpha,xm,ym,k,radius0=1,r0var=0.1,freq = 100,Vx = 0,Vy = 0, Vtheta = 0*2*m.pi/360)
+		Obj3.run(False,True,"check"+str(i)+".pckl")
+		print('done')
+
 if __name__ == '__main__': 
 	quickStart()
 	print("Script ObjectDiff.py termine")
+	#verifSignal(10)
     

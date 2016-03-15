@@ -16,7 +16,22 @@ def TFR(name,affichage1,affichage2,n_f,fSize):
 		py.scatter(x,y)  
 		py.scatter(xm,ym)    
 		py.show()
-	tfr = tftb.processing.ShortTimeFourierTransform(np.real(dif),n_fbins = n_f,fwindow = np.hamming(fSize))		#n_fbins
+	tfr = tftb.processing.ShortTimeFourierTransform(np.real(dif),n_fbins = n_f,fwindow = np.hamming(fSize))
+	tfr.run()
+	if(affichage2):
+		tfr.plot(kind='cmap', show_tf=True)
+	return tfr.tfr,tfr.ts,tfr.freqs
+
+def TFR_WO_MEAN(name,affichage1,affichage2,n_f,fSize):
+	t,dt,Field,inc,dif,x,y,xmp,ymp,xm,ym = loadData(name)
+	if(affichage1):
+		py.figure()
+		py.plot(t,np.real(dif))    
+		py.figure()
+		py.scatter(x,y)  
+		py.scatter(xm,ym)    
+		py.show()
+	tfr = tftb.processing.ShortTimeFourierTransform(np.real(dif)-np.mean(np.real(dif)),n_fbins = n_f,fwindow = np.hamming(fSize))
 	tfr.run()
 	if(affichage2):
 		tfr.plot(kind='cmap', show_tf=True)
@@ -66,7 +81,7 @@ def quickStart():
 
 	# RTF des signaux de base sans dilatation du rayon du cylindre			OK!
 	#X,T,F = TFR('trans2.pckl',False,True,4000,2000)
-	X,T,F = TFR('trans1.pckl',False,True,4000,2000)
+	#X,T,F = TFR('trans1.pckl',False,True,4000,2000)
 	#X,T,F = TFR('rot1.pckl',False,True,4000,2000)
 
 	# Somme des TRF et RTF de la somme						OK!
@@ -87,16 +102,11 @@ def quickStart():
 	#py.show()
 
 	# RTF du cylindre immobile et se contractant/dilatant				OK!
-	t,dt,Field,inc,dif,x,y,xmp,ymp,xm,ym = loadData('unanimate.pckl')
-	tfr = tftb.processing.ShortTimeFourierTransform(np.real(dif[0:dif])-np.mean(np.real(dif)),n_fbins = 4000,fwindow = np.hamming(5000))
-	tfr.run()
-	tfr.plot(kind='cmap', show_tf=True)
+	#TFR_WO_MEAN('unanimate.pckl',False,True,4000,5000)
+
 
 	# RTF des cylindres mobiles et se contractant/dilatant
-	t,dt,Field,inc,dif,x,y,xmp,ymp,xm,ym = loadData('trans1WD.pckl')
-	tfr = tftb.processing.ShortTimeFourierTransform(np.real(dif)-np.mean(np.real(dif)),n_fbins = 4000,fwindow = np.hamming(8000))
-	tfr.run()
-	tfr.plot(kind='cmap', show_tf=True)
+	#TFR_WO_MEAN('trans1WD.pckl',False,True,4000,8000)
 
 
 	#X,T,F = TFR('unanimate.pckl',False,True,4000,2000)
@@ -104,10 +114,22 @@ def quickStart():
 	#X,T,F = TFR('trans2WD.pckl',False)
 	#X,T,F = TFR('rot1WD.pckl',False)
 
+	t,dt,Field,inc,dif,x,y,xmp,ymp,xm,ym = loadData('unanimate.pckl')
+	tfr = tftb.processing.ShortTimeFourierTransform(np.real(dif[0:len(dif)/100])-np.mean(np.real(dif[0:len(dif)/100])),n_fbins = len(dif)/100,fwindow = np.hamming(100))
+	tfr.run()
+	print(len(dif)/100)
+	py.figure()
+	py.plot(t[0:len(dif)/100],np.real(dif[0:len(dif)/100])) 
+	tfr.plot(kind='cmap', show_tf=True)
+
+def verifSignal(n):
+	for i in range(n+1):
+		X,T,F = TFR("check"+str(i)+".pckl",False,True,4000,2000)
 
 
 if __name__ == '__main__':
-	quickStart()
-	#X,T,F = TFR('trans1.pckl',False,True,4000,2000)
-	#lawFound = seamCarving(X,T,F)
-	#splineFit(lawFound,tfr.ts,0.0001)
+	#verifSignal(10)
+	#quickStart()
+	X,T,F = TFR('trans1.pckl',True,True,4000,2000)
+	lawFound = seamCarving(X,T,F)
+	splineFit(lawFound,T,0.0001)

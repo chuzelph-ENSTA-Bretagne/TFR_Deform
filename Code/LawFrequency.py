@@ -76,7 +76,6 @@ def lawFrequency(tfr,t,f):
 	plt.xlabel('Time')
 	plt.ylabel('Frequency')
 	plt.colorbar()
-	plt.show()
 
 	# renvoie la loi frequence en fonction du temps
 	return k
@@ -106,19 +105,18 @@ def seamCarving(tfr,t,f):
 	plt.plot(bins_center, hist, lw=2)
 	plt.axvline(val, color='k', ls='--')
 	plt.tight_layout()
-	plt.show()
 
 	# Creation du masque qui garde que les points significatifs
 	VarSeuil = (Image > val)*tfr
 
 	# affichage du mask
 	plt.figure("VarSeuil signal")
-	plt.imshow(VarSeuil, cmap='jet', interpolation='nearest')
+	plt.imshow(np.flipud(VarSeuil), cmap='jet', interpolation='nearest')
 	plt.colorbar()
-	plt.show()
 
 	# fait appel a la fonction lawFrequency qui implemente le seam carving
 	lawFound = lawFrequency(np.abs(VarSeuil),t,f)
+	plt.show()
 	return lawFound
 
 
@@ -137,11 +135,11 @@ def splineFit(lawFound,t,smooth):
 	test.set_smoothing_factor(smooth)
 
 	# definition d'un interval de temps avec plus de point
-	Tnew = np.linspace(tmp, len(t), num=len(t)*10, endpoint=True)
+	Tnew = np.linspace(t[tmp], t[len(t)-1], num=(len(t)-tmp), endpoint=True)
 
 	# Affichage du resultat
 	plt.figure("spline pour la loi de frequence trouvee")
-	plt.plot (range(tmp,len(t)), lawFound)
+	plt.plot (t[tmp:len(t)], lawFound)
 	plt.plot (Tnew, test(Tnew),'+')
 	plt.show()
 
