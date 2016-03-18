@@ -1,8 +1,12 @@
+
+
+
 \chapter{Explication of the problem}
 
 \medskip
-\textbf{During this project, we will only study cylinder objects.}
-A lot of information given here come from this document \cite{EDP}.
+This first part present which kind of signal we will study and the physical model we have to simulate. \textbf{During this project, we will only study cylinder objects.} All the equations and a lot of information about the resolution of partial differential equation are given here come from this document \cite{EDP} and was really helpful .
+
+\medskip
 
 \section{Explication of the context}
 
@@ -88,7 +92,7 @@ We will have two waves:
 
 \chapter{Expression of the wave resulting from this situation.}
 
-Both the incident wave and the diffused wave have to be defined at (0,0) and mustn't diverge when $r\rightarrow +\infty$.
+Both the incident wave and the diffused wave have to be defined at (0,0) and mustn't diverge when $r\rightarrow +\infty$, it's also known as the SOMMERFELD condition.
 
 The consequences are that the incident wave can be written as :
 
@@ -102,7 +106,7 @@ If we choose to use the Hankel functions in order to express the diffused wave, 
 p_{dif} =  	\sum_{n=-\infty}^{\infty} b_{n}H^{(1)}_{n}(kr)e^{in\theta}
 \end{equation}
 
-The limit condition which applies here is the SOMMERFELD condition. That means that:
+The limit condition which applies here is the DIRICHLET condition. That means that:
 
 \begin{equation}
 p_{inc}(r,\theta) = p_{dif}(r,\theta) \qquad \forall(r,\theta) \in \{Border\, of\, the\, object\}

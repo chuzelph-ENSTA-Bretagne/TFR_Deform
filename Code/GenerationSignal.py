@@ -13,7 +13,7 @@ import pylab as py
 from scipy.fftpack import fft, fftfreq
 from scipy.signal import chirp
 import myspectrogram
-import tftb
+#import tftb
 
 # Cas du cylindre mou, champs nul aux niveau du contour en r
     

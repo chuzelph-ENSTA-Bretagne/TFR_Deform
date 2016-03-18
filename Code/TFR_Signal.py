@@ -105,22 +105,18 @@ def quickStart():
 	#TFR_WO_MEAN('unanimate.pckl',False,True,4000,5000)
 
 
-	# RTF des cylindres mobiles et se contractant/dilatant
+	# RTF des cylindres mobiles et se contractant/dilatant				OK!
 	#TFR_WO_MEAN('trans1WD.pckl',False,True,4000,8000)
 
 
-	#X,T,F = TFR('unanimate.pckl',False,True,4000,2000)
-	#X,T,F = TFR('trans1WD.pckl',False
-	#X,T,F = TFR('trans2WD.pckl',False)
-	#X,T,F = TFR('rot1WD.pckl',False)
 
-	t,dt,Field,inc,dif,x,y,xmp,ymp,xm,ym = loadData('unanimate.pckl')
-	tfr = tftb.processing.ShortTimeFourierTransform(np.real(dif[0:len(dif)/100])-np.mean(np.real(dif[0:len(dif)/100])),n_fbins = len(dif)/100,fwindow = np.hamming(100))
-	tfr.run()
-	print(len(dif)/100)
-	py.figure()
-	py.plot(t[0:len(dif)/100],np.real(dif[0:len(dif)/100])) 
-	tfr.plot(kind='cmap', show_tf=True)
+	# t,dt,Field,inc,dif,x,y,xmp,ymp,xm,ym = loadData('unanimate.pckl')			OK!
+	# tfr = tftb.processing.ShortTimeFourierTransform(np.real(dif[0:len(dif)/100])-np.mean(np.real(dif[0:len(dif)/100])),n_fbins = len(dif)/100,fwindow = np.hamming(100))
+	# tfr.run()
+	# print(len(dif)/100)
+	# py.figure()
+	# py.plot(t[0:len(dif)/100],np.real(dif[0:len(dif)/100])) 
+	# tfr.plot(kind='cmap', show_tf=True)
 
 def verifSignal(n):
 	for i in range(n+1):

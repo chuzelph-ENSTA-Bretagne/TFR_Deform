@@ -3,6 +3,14 @@
 
 \chapter{Seam carving algorithm.}
 
+\medskip
+
+The last part of the work is to find a method in order to have the expression of the signal's law frequency. Find an analytic expression seems pretty complicated but find first the value of the instantaneous frequency at a moment given and then realize an interpolation is far more simple. Furthermore, we can hope to find correlation between the result of the interpolation and the kind of movement or deformation we are studying.
+
+The first part will present a way to find the frequency law of a signal, how we can realize the interpolation and the result that can be expected.
+
+\medskip
+
 \section{Presentation of the algorithm.}
 
 
@@ -55,12 +63,12 @@ The seam carving algorithm can be express by the following line:
 
 	 	%\textit{Initialization, either at the beginning or if no law has been found yet.}%
 	 	\IF{i==0 or init == 0}
-     	  	\STATE $peakind\gets$ peak of the vector TFR$[:,i]$
+     	  	\STATE $peakind\gets$ peaks of the vector TFR$[:,i]$
      	
 	 	
 	 	%\textit{if at least one peak has been found}%
   	 		\IF{$len(peakind)!=0$}
-				\STATE $k[i]\gets peakind[0]$
+				\STATE $k[i]\gets$ first value of peakind
 				\STATE $init\gets 1$
 				
 	 	
@@ -134,7 +142,7 @@ The last part is to use interpolation algorithm such as fit spline interpolation
     \label{fig:spline_pour_la_loi_de_frequence_trouvee}
 \end{figure}
 
-Nevertheless, the result given by this method can be disturbed by the beginning of the signal. For example, the following figure shows how the first values of the law found can impact the interpolation.
+Nevertheless, the result given by this method can be disturbed by the beginning of the signal, the kind of signal we are studying and the the parameters of the function, especially the size of the smoothing windows which is use by the function. For example, the following figure shows how these parameters can impact the interpolation.
 
 \begin{figure}[H]
 \centering
@@ -197,7 +205,7 @@ Thanks to this code, we can generate easily any signal for any object and we can
 
 \section{Application to object which form change through time.}
 
-According to the document coming from the supervisors, if we consider a single cylinder which form change through time, we should get time-frequency representation like this one:
+According to the document coming from the supervisors, if we consider a single cylinder which form change through time but is still at the same position. We should get time-frequency representation like this one \cite{Analysis}:
 
 \begin{figure}[H]
 \centering
@@ -206,19 +214,51 @@ According to the document coming from the supervisors, if we consider a single c
     \label{fig:TFRExpected}
 \end{figure}
 
-Nevertheless, even with a lot of test, we only get result like this one:
+In this article, the authors have studied a similar problem where they analyse the wave reflected by the sea surface. The figure \ref{fig:TFRExpected} which represent the Time-frequency representation of the wave scatter is logical beacause the phenomenon is periodic. Nevertheless, even with a lot of test, we only get result like this one for the problem we are studying:
 
 \begin{figure}[H]
 \centering
     \includegraphics[scale=0.6,angle=0]{Images/Objx3y10.png}
-    \caption{Time frequency representation of a cylinder with a sinusoidal variation of its radius.}
+    \caption{Time-frequency representation of a cylinder with a sinusoidal variation of its radius.}
     \label{fig:Objx3y10}
 \end{figure}
 
-As you can see, we have the fundamental and the harmonic of the original signal which are present in this time frequency representation. But the form changing seems to don't have impact on those law frequency during time.
+As you can see, we have the fundamental and the harmonic of the original signal which are present in this time frequency representation. But the form changing seems to don't have impact on those law frequency during time. Many things can explain this result:
 
-\chapter*{Conclusion}
+\begin{itemize}
+\item The frequency windows is either too big or too small in order to see this phenomenon.
+\item We need do analyse a smaller signal and take small windows in order to treat a tiny part of the signal and see this variation.
+\item The other parameters which are use for the time-frequency representation aren't adapted and has to be changed.
+\end{itemize}
+
+
+\part{Conclusion}
+
 \bigskip
 
-All the different part which have been realized during this project very good result and can be easily reused by anybody.
-Most of them can be easily use for the signal we wanted to analyse. Nevertheless, the fact that the impact of the variation of the radius of the cylinder have not been seen is regretful.
+In the end, all the different part which have been realized during this project very good result.
+
+\medskip
+
+\begin{itemize}
+\item One program can generate any signal and also simulate its movement. In the end, we can get the position of the object and of the observer, the field scattered and the filed incident during the simulation.
+\item One program shows how we can use all the different time-frequency representation thanks to the tftb library.
+\item One last program explain how we can use all the tools developed in the part 3 for any kind of signal.
+\end{itemize}
+
+\medskip
+
+All the processing chain wanted in the beggining of the project is working as the different figures \label{TFR3} and \label{SpectrogramObjMov} show it and is provide in \textbf{Python} language. 
+Nevertheless, the fact that the impact of the variation of the radius of the cylinder have not been seen is unfortunate.
+
+\medskip
+
+A Github folder has been made for this project:
+
+\medskip
+
+\textit{https://github.com/chuzelph-ENSTA-Bretagne/TFR \_ Deform.git}
+
+\medskip
+
+It provide a lot of information about how to use the code with a README, different script which can be use in order to generate easily some signals and see the different time-frequency representation resulting.

@@ -1,0 +1,19 @@
+#!/bin/bash
+
+echo ' '
+echo 'Programme realiser par CHUZEL Philippe pour l''UV 54 et pour le projet TFRDeform'
+echo ' '
+echo ' '
+echo 'Merci d''utiliser ce code. Il lance automatiquement plusieurs scripts python qui peuvent vous servir de base de travail'
+echo ' '
+echo 'Ce script va generer 8 fichier *.pckl dans votre dossier .../TFR_Deform/code'
+echo '3 vont correspondre a des cylindre en mouvement dont le rayon est constant, 1 corespond à un cylindre immobile et les 3 trois derniers combinent le mouvement et la dilatation'
+echo ' '
+python ObjectDiff.py
+
+echo ' '
+echo 'Ce script va maintenant montrer comment fonctionne l''interpolation d''un signal. Nous avons genere un Doppler qui est caracteristique de l''impact du mouvement sur la frequence caracteristique d''un signal'
+echo ' '
+python LawFrequency.py
+ 
+exit 0

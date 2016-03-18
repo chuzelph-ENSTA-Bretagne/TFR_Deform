@@ -188,7 +188,7 @@ def quickStart():
 	y=10
 	xm = 5.
 	ym = 0.
-	# freq : frequence de dillatation/contraction du cylindre s-1
+	freq =100 							# frequence de dillatation/contraction du cylindre s-1
 	tau = 2								# duree de la simulation en seconde
 	nbpts = 20*tau*max(freq,k)					# nombre de point souhaite. PENSER A METTRE BEAUCOUP DE POINT!!!!!!!
 	t = np.linspace(0,tau,nbpts)		# Interval de temps d'etude. A donner en debut de simulation
@@ -242,7 +242,7 @@ def verifSignal(n):
 	y=10
 	xm = 5.
 	ym = 0.
-	# freq : frequence de dillatation/contraction du cylindre s-1
+	freq =100 							# frequence de dillatation/contraction du cylindre s-1
 	tau = 2								# duree de la simulation en seconde
 	nbpts = 20*tau*max(freq,k)					# nombre de point souhaite. PENSER A METTRE BEAUCOUP DE POINT!!!!!!!
 	t = np.linspace(0,tau,nbpts)		# Interval de temps d'etude. A donner en debut de simulation
